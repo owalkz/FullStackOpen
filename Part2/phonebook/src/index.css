@@ -1,0 +1,15 @@
+.error {
+  padding: 2rem;
+  border: solid 2px black;
+  margin: 2rem;
+  color: white; /* Corrected from font-color to color */
+  background: green;
+}
+
+.bad {
+  padding: 2rem;
+  border: solid 2px black;
+  margin: 2rem;
+  color: white;
+  background: red;
+}

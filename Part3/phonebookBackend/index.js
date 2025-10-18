@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static("dist"));
 morgan.token("body", function (req, res) {
   const body = req.body;
   if (body) return JSON.stringify(body);
@@ -16,6 +15,8 @@ morgan.token("body", function (req, res) {
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body]")
 );
+const distPath = path.resolve(__dirname, "dist");
+app.use(express.static(distPath));
 
 const generateId = () => Math.floor(Math.random() * 10000000000000);
 
@@ -74,10 +75,6 @@ app.get("/api/persons/:id", (request, response) => {
   }
 });
 
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
-
 app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id;
   persons = persons.filter((person) => person.id !== id);
@@ -102,6 +99,10 @@ app.post("/api/persons", (request, response) => {
       .json({ message: "Person created successfully!", newPerson });
   } else
     return response.status(400).json({ message: "Missing name or number." });
+});
+
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 app.listen(PORT, () => {

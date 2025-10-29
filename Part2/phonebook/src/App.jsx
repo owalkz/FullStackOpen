@@ -33,24 +33,44 @@ const App = () => {
             setPersons(
               persons.map((person) => (person.id === exists.id ? data : person))
             );
+          })
+          .then(() => {
+            setErrorMessage(
+              `${exists.name}'s number has been successfully updated!`
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 3000);
+          })
+          .catch((error) => {
+            setMessageType("bad");
+            setErrorMessage(error.message);
+            setTimeout(() => {
+              setErrorMessage(null);
+              setMessageType("good");
+            }, 3000);
           });
-        setErrorMessage(
-          `${exists.name}'s number has been successfully updated!`
-        );
-        setTimeout(() => {
-          setErrorMessage(null);
-        }, 3000);
       }
     } else {
       contactsService
         .addContact(newPerson)
-        .then((data) => setPersons(persons.concat(data)));
-      setErrorMessage(
-        `${newPerson.name} has been successfully added to your contacts.`
-      );
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
+        .then((data) => setPersons(persons.concat(data.newPerson)))
+        .then(() => {
+          setErrorMessage(
+            `${newPerson.name} has been successfully added to your contacts.`
+          );
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 3000);
+        })
+        .catch((error) => {
+          setMessageType("bad");
+          setErrorMessage(error.message);
+          setTimeout(() => {
+            setErrorMessage(null);
+            setMessageType("good");
+          }, 3000);
+        });
     }
     setNewName("");
     setNewNumber("");

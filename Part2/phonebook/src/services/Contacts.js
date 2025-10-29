@@ -1,11 +1,11 @@
 import axios from "axios";
-const baseUrl = "http://localhost:3001/persons";
+const baseUrl = "/api/persons";
 
 const getContacts = () => {
   return axios
     .get(baseUrl)
     .then((response) => response.data)
-    .catch((error) => {
+    .catch(() => {
       alert("An error occurred while fetching contacts.");
     });
 };
@@ -15,7 +15,7 @@ const addContact = (newContact) => {
     .post(baseUrl, newContact)
     .then((response) => response.data)
     .catch((error) => {
-      alert("Failed to add contact");
+      throw new Error(error?.response?.data?.error);
     });
 };
 
@@ -28,7 +28,7 @@ const updateContact = (id, modifiedContact) => {
     .put(`${baseUrl}/${id}`, modifiedContact)
     .then((response) => response.data)
     .catch((error) => {
-      alert("Failed to update contact");
+      throw new Error(error?.response?.data?.error);
     });
 };
 

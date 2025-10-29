@@ -5,3 +5,6 @@
 /Part1/unicafe/node_modules
 /Part2/mapExample
 /Part2/part2-notes-frontend
+/Part3/helloWorld
+/Part2/phonebook/dist
+.**/.env
